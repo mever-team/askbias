@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ 'Edit' if manager.output else 'New' }} measure</h1>
+    <form method="post">
+        <div class="mb-3">
+            <input type="text" class="form-control" name="name" value="{{ name if manager.output else '' }}" required>
+        </div>
+
+        <!-- Show only relevant buttons based on whether it's a new or existing manager -->
+        <div class="mt-4">
+            {% if manager.output %}
+                <button type="submit" name="update" class="btn btn-primary">Update</button>
+            {% else %}
+                <button type="submit" name="create" class="btn btn-primary">Create</button>
+            {% endif %}
+            {% if manager.output %}
+                <button type="submit" name="save_as_new" class="btn btn-secondary">New</button>
+                <button type="submit" name="delete" class="btn btn-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            {% endif %}
+        </div>
+        <br>
+        <h3>Predicates</h3>
+        <p>Add abstract predicates involved in bias assessment. These will be quantified to specific values
+        based on the beliefs of stakeholders. Predicates can either have no expression, in which case the truth
+        value of them holding true is manually injected, or may be computed based on an expression, and hence
+        be computed with Basic fuzzy Logic (BL) evaluation rules. The exact evaluation mechanism depends on
+        the logic subclass and on numeric values provided by stakeholders. Predicates cannot contain spaces
+        in their names, but there is a descriptive phrase for each one. That description is shown to stakeholedrs
+        during the quest of understanding what definitions of fairness do.</p>
+        <p>Leave expressions blank to obtain values from stakeholder opinions or system outputs.</p>
+        <div id="predicates-container">
+            {% for key, value in manager.expressions.items() %}
+            <div class="predicate-entry mb-3" id="predicate_{{ loop.index }}">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="symbol_{{ loop.index }}" placeholder="Symbol" value="{{ key }}" required>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" name="expression_{{ loop.index }}" placeholder="Expression" value="{{ value }}">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" name="description_{{ loop.index }}" placeholder="Description" value="{{ manager.predicates.get(key, '') }}">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-danger remove-predicate" onclick="removePredicate(this)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                    <!-- Arrow buttons for reordering -->
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-light" onclick="movePredicateUp(this)" {% if loop.index == 1 %} disabled {% endif %}>
+                            <i class="bi bi-arrow-up"></i>
+                        </button>
+                        <button type="button" class="btn btn-light" onclick="movePredicateDown(this)" {% if loop.index == manager.expressions|length %} disabled {% endif %}>
+                            <i class="bi bi-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" class="btn btn-success mt-2" id="add-predicate">
+            <i class="bi bi-plus-lg"></i>
+        </button>
+    </form>
+</div>
+
+<script>
+    let predicateCount = {{ manager.expressions|length if manager else 0 }};
+
+    // Function to dynamically add a new predicate entry
+    document.getElementById('add-predicate').addEventListener('click', function() {
+        predicateCount++;
+        const container = document.getElementById('predicates-container');
+
+        const entry = document.createElement('div');
+        entry.className = 'predicate-entry mb-3';
+        entry.innerHTML = `
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" name="symbol_${predicateCount}" placeholder="Symbol" required>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="expression_${predicateCount}" placeholder="Expression">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="description_${predicateCount}" placeholder="Description">
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-danger remove-predicate" onclick="removePredicate(this)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+                <!-- Arrow buttons for reordering -->
+                <div class="col-auto">
+                    <button type="button" class="btn btn-light" onclick="movePredicateUp(this)">
+                        <i class="bi bi-arrow-up"></i>
+                    </button>
+                    <button type="button" class="btn btn-light" onclick="movePredicateDown(this)">
+                        <i class="bi bi-arrow-down"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        container.appendChild(entry);
+    });
+
+    // Function to remove a predicate entry
+    function removePredicate(button) {
+        const entry = button.closest('.predicate-entry');
+        entry.remove();
+    }
+
+    // Function to move a predicate up
+    function movePredicateUp(button) {
+        const entry = button.closest('.predicate-entry');
+        const prev = entry.previousElementSibling;
+        if (prev) {
+            entry.parentNode.insertBefore(entry, prev);
+        }
+        updateArrowState();
+    }
+
+    // Function to move a predicate down
+    function movePredicateDown(button) {
+        const entry = button.closest('.predicate-entry');
+        const next = entry.nextElementSibling;
+        if (next) {
+            entry.parentNode.insertBefore(next, entry);
+        }
+        updateArrowState();
+    }
+
+    // Function to update the disabled state of arrows
+    function updateArrowState() {
+        const entries = document.querySelectorAll('.predicate-entry');
+        entries.forEach((entry, index) => {
+            const upButton = entry.querySelector('.btn-light:nth-child(1)');
+            const downButton = entry.querySelector('.btn-light:nth-child(2)');
+
+            if (index === 0) {
+                upButton.disabled = true; // Disable the up arrow for the first item
+            } else {
+                upButton.disabled = false;
+            }
+
+            if (index === entries.length - 1) {
+                downButton.disabled = true; // Disable the down arrow for the last item
+            } else {
+                downButton.disabled = false;
+            }
+        });
+    }
+
+    // Initialize arrow state on page load
+    updateArrowState();
+</script>
+
+{% endblock %}
