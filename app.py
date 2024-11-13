@@ -10,8 +10,8 @@ def create_defaults(manager):
         "E": "there is discrimination against the group",
         "M": "correct predictions for the group",
         "Mc": "correct predictions for other groups",
-        "T": "numerical tolerance is small",
-        "tol": "large numerical deviation from target truth values"
+        "T": "numerical tolerance affects discrimination",
+        "tol": "acceptable numerical deviation from target truth values"
     }
     manager.expressions = {  # Default formulas
         "M": "",

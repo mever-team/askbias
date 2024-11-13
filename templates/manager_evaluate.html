@@ -4,8 +4,8 @@
 <div class="container">
     <h1>Measure {{ name }}</h1>
 
-    <p>Here are the outcomes of the fairness assessment. You can see the details of intermediate computations
-    and respective formulas in the "Details" tab.</p>
+    <p>Here is the outcome of fairness assessment. Symbols correspond to numeric evaluation, where for some
+    quantities (e.g., bias) small values indeed the ones sought out.</p>
 
     <!-- Tabs for Description and Details -->
     <ul class="nav nav-tabs" id="descriptionTabs" role="tablist">
@@ -46,12 +46,17 @@
                                     <span>
                                         {% if value == 0 %}
                                             <i class="bi bi-x-circle" style="color:red;"></i>
+                                        {% elif value < 0.25 %}
+                                            <i class="bi bi-arrow-down-circle" style="color:#8B0000;"></i>
                                         {% elif value == 1 %}
                                             <i class="bi bi-check-circle" style="color:green;"></i>
+                                        {% elif value > 0.75 %}
+                                            <i class="bi bi-arrow-up-circle" style="color:#004d00;"></i>
                                         {% else %}
                                             <i class="bi bi-question-circle" style="color:orange;"></i>
                                         {% endif %}
                                     </span>
+
                                     <strong> {{ key }}</strong>
                                 </td>
                                 <td>{{ expression }}</td>

@@ -62,8 +62,12 @@ class Manager:
             if k in values:
                 if values[k] == 0:
                     ret += '<i class ="bi bi-x-circle" style="color:red;"></i> '
+                elif values[k] < 0.25:
+                    ret += '<i class="bi bi-arrow-down-circle" style="color:#8B0000;";"></i> '
                 elif values[k] == 1:
                     ret += '<i class="bi bi-check-circle" style="color:green;"></i> '
+                elif values[k] > 0.75:
+                    ret += '<i class="bi bi-arrow-up-circle" style="color:#004d00;"></i> '
                 else:
                     ret += '<i class="bi bi-question-circle" style="color:orange;"></i> '
             if kwargs.get(k, k):
