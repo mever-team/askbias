@@ -1,6 +1,5 @@
 from collections.abc import Iterable
 
-
 class Context:
     def __init__(self, logic, **kwargs):
         self.values = kwargs | {"true": 1, "false": 0}
@@ -47,7 +46,7 @@ class Expression:
                 if ret[-1]!="\n":
                     ret += "\n"
         elif self.operation=="implication":
-            ret += "AGREE THAT GIVEN " if injectNegation else "GIVEN "
+            ret += "ALLOW THAT GIVEN " if injectNegation else "GIVEN "
             ret += self.args[0].text(tab, **kwargs)
             if ret[-1]!="\n":
                 ret += " "

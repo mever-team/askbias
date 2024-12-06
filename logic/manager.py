@@ -3,10 +3,11 @@ from logic.grammar import parse
 
 
 class Manager:
-    def __init__(self, **kwargs):
+    def __init__(self, owner="mammoth", **kwargs):
         self.expressions = kwargs
         self.output = list(self.expressions.keys())[-1] if kwargs else None
         self.predicates = dict()
+        self.owner = owner
 
     def expand(self):
         expressions = {k: v for k, v in self.expressions.items()}

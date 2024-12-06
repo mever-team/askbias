@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="container">
+    <h1 class="text-left">What are you?</h1>
+    <p class="text-left">Here, you may log in as a domain expert that writes fairness definitions in Basic fuzzy Logic (BL).
+        Once you do, fairness definition creation and editing controls will appear.
+        For the time being, request a username and password from MAMMOth's team.
+        You do not need to login if you are a stakeholder or stakeholder representative (like social scientists)
+        that aims to flesh out specific definitions of fairness in a social context.<br>
+        <b>Do not share your username and password with others.</b>
+    </p>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="{{ url_for('login') }}">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username.">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password.">
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" name="expert" class="btn btn-primary">Login as domain expert</button>
+                            <button type="submit" name="is_guest" class="btn btn-success">Continue as stakeholder or representative</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

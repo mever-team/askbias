@@ -11,15 +11,17 @@
         <!-- Show only relevant buttons based on whether it's a new or existing manager -->
         <div class="mt-4">
             {% if manager.output %}
-                <button type="submit" name="update" class="btn btn-primary">Update</button>
+                {% if user=="mammoth" or user==manager.owner %}
+                    <button type="submit" name="update" class="btn btn-primary">Save</button>
+                {% endif %}
+                <button type="submit" name="save_as_new" class="btn btn-secondary">Create new</button>
+                {% if user=="mammoth" or user==manager.owner %}
+                    <button type="submit" name="delete" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                {% endif %}
             {% else %}
-                <button type="submit" name="create" class="btn btn-primary">Create</button>
-            {% endif %}
-            {% if manager.output %}
-                <button type="submit" name="save_as_new" class="btn btn-secondary">New</button>
-                <button type="submit" name="delete" class="btn btn-danger">
-                    <i class="bi bi-trash"></i>
-                </button>
+                <button type="submit" name="create" class="btn btn-primary">Create new</button>
             {% endif %}
         </div>
         <br>
@@ -29,7 +31,7 @@
         value of them holding true is manually injected, or may be computed based on an expression, and hence
         be computed with Basic fuzzy Logic (BL) evaluation rules. The exact evaluation mechanism depends on
         the logic subclass and on numeric values provided by stakeholders. Predicates cannot contain spaces
-        in their names, but there is a descriptive phrase for each one. That description is shown to stakeholedrs
+        in their names, but there is a descriptive phrase for each one. That description is shown to stakeholders
         during the quest of understanding what definitions of fairness do.</p>
         <p>Leave expressions blank to obtain values from stakeholder opinions or system outputs.</p>
         <div id="predicates-container">

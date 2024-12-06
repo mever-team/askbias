@@ -5,14 +5,11 @@
     <h1>Fairness measures</h1>
     <p>This service contains measures of fairness that are stated in Basic fuzzy Logic (BL).
     These run by assigning truth values on base predicates and selecting the BL subclass to work in.
-    After computer scientists create the measures, stakeholders can run them through this
-    application based on specific belief values that are unknown at conception. By relying
-    on the logical system of BL, definitions of fairness quantified by the measures
-        can also be rewritten in humanly readable language, which bridges the gap between
-        crisp numerical analysis and intuitive but abstract statements.</p>
-    <a href="{{ url_for('new_manager') }}" class="btn btn-success mb-3">
-        <i class="bi bi-plus-lg"></i>
-    </a>
+    After domain experts create the measures, stakeholders or their representatives can run them through this
+    application based on specific belief values. Those values are unknown at conception and should be determined
+    solely by the stakeholder. Thanks to the logical system of BL, definitions of fairness
+    are rewritten either mathematically or in humanly readable language. This bridges the gap between
+    crisp numerical analysis and intuitive but abstract statements.</p>
     <ul class="list-group">
         {% for name, manager in managers.items() %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -21,9 +18,11 @@
                 <a href="{{ url_for('manager_inputs', name=name) }}" class="btn btn-info btn-sm">
                     <i class="bi bi-graph-up"></i> Run
                 </a>
+                {% if not is_guest %}
                 <a href="{{ url_for('edit_manager', name=name) }}" class="btn btn-warning btn-sm">
                     <i class="bi bi-pencil-square"></i> Edit
                 </a>
+                {% endif %}
             </div>
         </li>
         {% endfor %}
