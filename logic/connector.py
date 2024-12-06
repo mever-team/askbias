@@ -58,8 +58,6 @@ class Connector:
                 cursor.execute("INSERT INTO managers (name, owner) VALUES (?, ?)", (name, manager.owner))
                 manager_id = cursor.lastrowid
 
-            print(manager.predicates)
-
             # Insert all predicates and descriptions
             for symbol, description in manager.predicates.items():
                 cursor.execute("INSERT INTO predicates (manager_id, symbol, description) VALUES (?, ?, ?)",
