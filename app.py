@@ -3,6 +3,7 @@ from flask_htpasswd import HtPasswdAuth
 from logic.types import product, lukasiewicz, godel
 from logic.expression import Context
 from logic.manager import Manager
+from logic.connector import Connector
 import os
 
 
@@ -46,7 +47,7 @@ app.config['FLASK_HTPASSWD_PATH'] = 'secrets/.htpasswd'  # htpasswd -c secrets/.
 app.config['FLASK_SECRET'] = load_secret_key('secrets/flask_secret.txt')
 app.config['SECRET_KEY'] = app.config['FLASK_SECRET']
 htpasswd = HtPasswdAuth(app)
-managers = {}
+managers = Connector()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -92,8 +93,9 @@ def new_manager():
                 symbol = request.form[f'symbol_{index}']
                 expressions[symbol] = request.form.get(f'expression_{index}', '')
                 predicates[symbol] =  request.form.get(f'description_{index}', '')
-        managers[name] = Manager(**expressions, owner=user)
-        managers[name].predicates = predicates
+        manager = Manager(**expressions, owner=user)
+        manager.predicates = predicates
+        managers[name] = manager
         return redirect(url_for('index'))
     manager = Manager(owner=user)
     create_defaults(manager)  # Populate with default predicates and expressions
