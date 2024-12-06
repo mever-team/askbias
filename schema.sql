@@ -1,21 +1,21 @@
 CREATE TABLE IF NOT EXISTS managers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE,
-    owner TEXT NOT NULL
+    name VARCHAR(256) NOT NULL UNIQUE,
+    owner VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS predicates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     manager_id INTEGER NOT NULL,
-    symbol TEXT NOT NULL,
-    description TEXT,
+    symbol VARCHAR(256) NOT NULL,
+    description VARCHAR(256),
     FOREIGN KEY (manager_id) REFERENCES managers (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS expressions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     manager_id INTEGER NOT NULL,
-    symbol TEXT NOT NULL,
-    expression TEXT,
+    symbol VARCHAR(256) NOT NULL,
+    expression VARCHAR(256),
     FOREIGN KEY (manager_id) REFERENCES managers (id) ON DELETE CASCADE
 );
