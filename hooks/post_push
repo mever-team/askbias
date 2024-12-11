@@ -1,0 +1,4 @@
+#!/bin/bash
+TAG=$SOURCE_BRANCH-$(cut -c1-8 <<< $SOURCE_COMMIT)-$(date +%F.%H%M%S)
+docker tag $IMAGE_NAME $DOCKER_REPO:$TAG
+docker push $DOCKER_REPO:$TAG
