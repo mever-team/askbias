@@ -1,3 +1,4 @@
 lark
 flask
 flask_htpasswd
+gunicorn
