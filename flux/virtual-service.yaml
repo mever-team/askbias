@@ -1,0 +1,41 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: askbias-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "askbias.mever.gr"
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "askbias.mever.gr"
+      tls:
+        mode: SIMPLE
+        credentialName: mever-tls
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: mever-askbias-virtual-service
+spec:
+  hosts:
+    - "askbias.mever.gr"
+  gateways:
+    - askbias-gateway
+  http:
+    - route:
+        - destination:
+            host: mever-askbias
+            port:
+              number: 80

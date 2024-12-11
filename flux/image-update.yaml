@@ -1,0 +1,23 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: mever-askbias-repo
+spec:
+  image: mever/askbias
+  interval: 10m
+  secretRef:
+    name: docker-hub-mever-creds
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: mever-askbias-repo-policy
+spec:
+  imageRepositoryRef:
+    name: mever-askbias-repo
+  filterTags:
+    pattern: "^main-[a-f0-9]+-(?P<ts>[0-9,\\.,\\-]+)$"
+    extract: "$ts"
+  policy:
+    alphabetical:
+      order: asc

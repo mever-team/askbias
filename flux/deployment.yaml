@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mever-askbias
+  labels:
+    app: mever-askbias
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mever-askbias
+  template:
+    metadata:
+      labels:
+        app: mever-askbias
+    spec:
+      imagePullSecrets:
+        - name: docker-hub-mever-creds
+      volumes:
+        - name: askbias-secrets
+          secret:
+            secretName: askbias-secrets
+            items:
+              - key: .htpasswd
+                path: .htpasswd
+              - key: flask_secret
+                path: flask_secret.txt
+        - name: askbias-sqlite
+          persistentVolumeClaim:
+            claimName: askbias-sqlite-pvc
+      containers:
+        - name: mever-docs
+          image: mever/askbias:main-2b939046-2024-12-11.141653 # {"$imagepolicy": "mever-services:mever-askbias-repo-policy"}
+          ports:
+            - containerPort: 5000
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "128Mi"
+            limits:
+              memory: "1Gi"
+          volumeMounts:
+            - name: askbias-secrets
+              mountPath: /app/secrets
+              readOnly: true
+            - name: askbias-sqlite
+              mountPath: /app/sqlite
