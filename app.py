@@ -8,6 +8,9 @@ import os
 
 
 def load_secret_key(file_path):
+    if "FLASK_SECRET" in os.environ:
+        return os.environ["FLASK_SECRET"]
+    # have a file-based secret key management
     try:
         with open(file_path, 'rb') as secret_file:
             return secret_file.read().strip()
