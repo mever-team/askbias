@@ -7,6 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ (github.ref == 'refs/heads/main') && (github.event.pusher.name != 'fluxcdbot') }}
     steps:
+      - name: Get repo name
+        id: repo
+        run: |
+          echo "${ github.repository }}" | cut -d "/" -f 2 > repo.txt
+          echo "name=$(cat repo.txt)" >> $GITHUB_OUTPUT
+          rm repo.txt
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get current date
@@ -24,7 +30,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            mever/${{ inputs.repo }}
+            mever/${{ steps.repo.outputs.name }}
           tags: |
             type=ref,event=branch
             type=ref,event=tag
