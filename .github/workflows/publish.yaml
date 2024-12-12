@@ -1,6 +1,8 @@
 name: Publish Image
 on:
   push:
+    paths-ignore:
+      - flux/**
   workflow_dispatch:
 jobs:
   publish:
