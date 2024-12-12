@@ -10,7 +10,7 @@ jobs:
       - name: Get repo name
         id: repo
         run: |
-          echo "${ github.repository }}" | cut -d "/" -f 2 > repo.txt
+          echo "${{ github.repository }}" | cut -d "/" -f 2 > repo.txt
           echo "name=$(cat repo.txt)" >> $GITHUB_OUTPUT
           rm repo.txt
       - name: Checkout
