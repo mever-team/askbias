@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: askbias-sqlite-pvc
   labels:
-    app: mever-askbias
+    app: askbias
 spec:
   accessModes:
     - ReadWriteOnce

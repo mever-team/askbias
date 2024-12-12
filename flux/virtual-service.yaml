@@ -27,7 +27,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: mever-askbias-virtual-service
+  name: askbias-virtual-service
 spec:
   hosts:
     - "askbias.mever.gr"
@@ -36,6 +36,6 @@ spec:
   http:
     - route:
         - destination:
-            host: mever-askbias
+            host: askbias
             port:
               number: 80

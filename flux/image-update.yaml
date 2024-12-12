@@ -1,7 +1,7 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: mever-askbias-repo
+  name: askbias-repo
 spec:
   image: mever/askbias
   interval: 10m
@@ -11,10 +11,10 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: mever-askbias-repo-policy
+  name: askbias-repo-policy
 spec:
   imageRepositoryRef:
-    name: mever-askbias-repo
+    name: askbias-repo
   filterTags:
     pattern: "^main-[a-f0-9]+-(?P<ts>[0-9,\\.,\\-]+)$"
     extract: "$ts"

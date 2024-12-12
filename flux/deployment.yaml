@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mever-askbias
+  name: askbias
   labels:
-    app: mever-askbias
+    app: askbias
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mever-askbias
+      app: askbias
   template:
     metadata:
       labels:
-        app: mever-askbias
+        app: askbias
     spec:
       imagePullSecrets:
         - name: docker-hub-mever-creds
@@ -29,8 +29,8 @@ spec:
           persistentVolumeClaim:
             claimName: askbias-sqlite-pvc
       containers:
-        - name: mever-docs
-          image: mever/askbias:main-2b939046-2024-12-11.141653 # {"$imagepolicy": "mever-services:mever-askbias-repo-policy"}
+        - name: askbias
+          image: mever/askbias:main-2b939046-2024-12-11.141653 # {"$imagepolicy": "mever-services:askbias-repo-policy"}
           ports:
             - containerPort: 5000
           imagePullPolicy: IfNotPresent
