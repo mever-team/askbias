@@ -24,7 +24,7 @@ kind: ImageRepository
 metadata:
   name: askbias-repo
 spec:
-  image: mever/askbias
+  image: registry.mever.gr/mever/askbias
   interval: 10m
   secretRef:
     name: docker-hub-mever-creds

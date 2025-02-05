@@ -30,7 +30,7 @@ spec:
             claimName: askbias-sqlite-pvc
       containers:
         - name: askbias
-          image: mever/askbias:main-915e94c8-2024-12-12.120119 # {"$imagepolicy": "mever-services:askbias-repo-policy"}
+          image: registry.mever.gr/mever/askbias:main-915e94c8-2024-12-12.120119 # {"$imagepolicy": "mever-services:askbias-repo-policy"}
           ports:
             - containerPort: 5000
           imagePullPolicy: IfNotPresent
