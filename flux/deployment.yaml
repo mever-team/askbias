@@ -15,7 +15,7 @@ spec:
         app: askbias
     spec:
       imagePullSecrets:
-        - name: docker-hub-mever-creds
+        - name: registry-mever-gr-creds
       volumes:
         - name: askbias-secrets
           secret:

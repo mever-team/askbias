@@ -27,7 +27,7 @@ spec:
   image: registry.mever.gr/mever/askbias
   interval: 10m
   secretRef:
-    name: docker-hub-mever-creds
+    name: registry-mever-gr-creds
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
